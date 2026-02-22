@@ -23,7 +23,7 @@ if __name__=='__main__':
     seed_everything(0)
 
     parser = argparse.ArgumentParser(description="Set experiment name and paths")
-    parser.add_argument("--ycb_model_path", type=str, default="/home/miruware/ssd_4tb/dataset/ho3d/YCB_Video_Models", help="Path to the YCB Video Models")
+    parser.add_argument("--ycb_model_path", type=str, default="/home/mani/Repos/Any6D", help="Path to the YCB Video Models")
     parser.add_argument("--img_to_3d", action="store_true",help="Running with InstantMesh+SAM2")
     args = parser.parse_args()
 

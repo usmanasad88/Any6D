@@ -336,10 +336,14 @@ class Any6D:
 
 
         pcd_clean, ind = pcd.remove_statistical_outlier(nb_neighbors=int(points.shape[0] * 0.01), std_ratio=2.0)
+        # Downsample if too many points to keep orient_normals tractable
+        MAX_PTS = 10000
+        if len(pcd_clean.points) > MAX_PTS:
+            pcd_clean = pcd_clean.farthest_point_down_sample(MAX_PTS)
         pcd_clean.translate(-pcd_clean.get_oriented_bounding_box(robust=True).center)
 
         pcd_clean.estimate_normals(search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=1.0, max_nn=20))
-        pcd_clean.orient_normals_consistent_tangent_plane(k=1000)
+        pcd_clean.orient_normals_consistent_tangent_plane(k=min(100, len(pcd_clean.points) - 1))
         obb_pcd_clean = pcd_clean.get_oriented_bounding_box()
         obb_pcd_clean.color = (0, 0, 0)
 
